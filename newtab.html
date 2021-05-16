@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>新标签页</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="css/tailwind.min.css">
+	<style>
+    /* body { background:#FAFAFA; } */
+    .memos,#tip { width:70%; margin:0 auto; display: none; }
+    .memos h1 { margin-top:30px; }
+    .memo { margin:20px 0; background:#FFF; padding:20px; border-radius:6px; }
+    .memo:hover { box-shadow: 0px 2px 16px #DDDDDD; }
+    .memo .time { color:#8D8D8D; font-size:12px; }
+    /* .memo .content { color: #323232; font-size: 14px; } */
+    .memo .content p { line-height:1.8; min-height:20px; margin:0; }
+    .memo .content ul,
+    .memo .content ol { padding-inline-start: 20px; margin: 0; }
+    .memo .content li { line-height: 1.8; }
+    .memo .files img { width:100%; border:1px solid #E6E6E6; border-radius: 4px; margin:6px 0; }
+
+    .box { width: 600px;  margin:0 auto; }
+    #setBox, #tipBox, #loadingBox{ display: none;}
+
+    .select-file-box{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 50%;
+      transform: translate(-50%, -50%);
+    }
+	</style>
+</head>
+
+<body class="bg-gray-50">
+
+
+  <!-- 设置面板 -->
+  <div id="setBox" class="select-file-box py-10 px-10 max-w-full bg-white rounded-xl shadow-xl space-y-2 sm:py-8 sm:flex sm:items-center sm:space-y-0 sm:space-x- ">
+    <div class="text-center space-y-2 sm:text-left">
+      <div class="space-y-0.5">
+        <p class="text-xl text-black font-semibold leading-10">
+          昕阅笔记，展示你想记的内容
+        </p>
+        <p class="text-gray-500 text-sm font-medium leading-10">
+          请选择 My Clippings.txt 文件
+        </p>
+      </div>
+      <button id="selectFileBtn" class="px-8 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 leading-8">选择文件</button>
+      <button id="clearBtn" class="px-8 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 leading-8 ml-4">清空数据</button>
+      <button id="backBtn" class="px-8 py-1 text-sm text-purple-600 font-semibold rounded-full border border-purple-200 hover:text-white hover:bg-purple-600 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 leading-8 ml-4">返回</button>
+      <input type="file" id="upfile" accept="text/*" hidden />
+    </div>
+  </div>
+
+  <!-- 笔记 -->
+  <div id="tipBox" class="select-file-box max-w-full bg-white rounded-xl shadow-xl space-y-2 sm:pt-6 ">
+    <div class="text-center space-y-2 sm:text-left sm:px-8 ">
+      <div class="space-y-0.5  mb-5" id="tipText">
+        <p class="text-xl text-black font-semibold leading-10 mb-5">
+          避免争 吵当然是好的，但不是以压抑感情为代价。 而且压是压不住的，最终她还会落入谷底， 并也许会一发不可收拾。
+        </p>
+        <p class="text-gray-500 text-sm font-medium leading-5">
+          书籍：《富兰克林自传》
+        </p>
+        <p class="text-gray-500 text-sm font-medium leading-5">
+          作者：本杰明•富兰克林
+        </p>
+        <p class="text-gray-500 text-sm font-medium leading-5">
+          时间：2018年8月20日星期一 下午4:09:29
+        </p>
+      </div>
+    </div>
+    <p class="bg-blue-50 text-indigo-600 sm:px-8 leading-10 sm:flex">
+      <span class="sm:flex-1">昕阅笔记，展示你想记的内容</span>
+      <span id="totalBox"class="text-gray-500">323/3141 条</span>
+      <span class="sm:flex justify-center items-center ml-3 text-blue-300	">
+        <!-- <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-6 px-1 sm:flex-1 cursor-pointer hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10" />
+        </svg> -->
+        <svg id="refreshBtn" xmlns="http://www.w3.org/2000/svg" class="h-5 w-6 px-1 sm:flex-1 cursor-pointer hover:text-blue-700	" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        <svg id="setBtn" xmlns="http://www.w3.org/2000/svg" class="h-5 w-6 px-1 sm:flex-1 cursor-pointer hover:text-blue-700	" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      </span>
+    </p>
+  </div>
+
+  <!-- loading -->
+  <div id="loadingBox" class="select-file-box h-2/5 flex max-w-full bg-white rounded-xl shadow-xl space-y-2 sm:py-6 ">
+    <svg class="animate-spin h-8 flex-1 w-8 text-white m-auto h-full text-blue-600 " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+  </div>
+
+
+</body>
+<script src="js/jquery-1.8.3.js"></script>
+<script src="js/kindle.js"></script>
+<script src="js/newTab.js"></script>
+</html>

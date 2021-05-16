@@ -2,7 +2,7 @@
 	// 清单文件的版本，这个必须写，而且必须是2
 	"manifest_version": 2,
 	// 插件的名称
-	"name": "昕阅笔记",
+	"name": "昕阅",
 	// 插件的版本
 	"version": "1.0.0",
 	// 插件描述
@@ -17,7 +17,7 @@
 	"browser_action": {
 		"default_icon": "img/icon.png",
 		// 图标悬停时的标题，可选
-		"default_title": "昕阅笔记，展示你想记的内容",
+		"default_title": "昕阅，展示你想记的内容",
 		"default_popup": "popup.html"
 	},
 	// 需要直接注入页面的JS
@@ -47,7 +47,7 @@
 		"storage" // 插件本地存储
 	],
 	// 插件主页，这个很重要，不要浪费了这个免费广告位
-	"homepage_url": "https://github.com/nihaojob",
+	"homepage_url": "https://github.com/nihaojob/xinReader",
 	// 覆盖浏览器默认页面
 	"chrome_url_overrides": {
 		// 覆盖浏览器默认的新标签页

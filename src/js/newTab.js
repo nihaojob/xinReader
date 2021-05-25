@@ -75,41 +75,6 @@ class Store {
 	}
 }
 
-const store = new Store()
-
-
-// function showTip(i, cb){
-// 	const key = 'tip-' + i
-// 	chrome.storage.local.get([key], function(data) {
-// 		if(data[key]){
-// 			$('#tip').html('<div class="memo">' + data[key] + '</div>')
-// 			cb()
-// 		}
-// 	})
-// }
-
-// function flomoParser(strHtml) {
-// 	const memos = $(strHtml).find('.memo');
-// 	const all = []
-// 	memos.each((i) => {
-// 		all.push(i)
-// 		const str = memos.eq(i).html()
-// 		chrome.storage.local.set({ ['tip-' + i]: str }, function() {
-// 			console.log('保存成功！');
-// 		});
-// 		if(i === memos.length-1){
-// 			alert('保存成功！')
-// 			chrome.storage.local.set({ all }, function() {
-// 				console.log('保存成功！');
-// 			});
-// 			chrome.storage.local.set({ allNum: all.length  }, function() {
-// 				console.log('保存成功！');
-// 			});
-// 		}
-// 	})
-// }
-
-
 class Kindle {
 	typeFile = ''
 	constructor(store){
@@ -257,4 +222,6 @@ class Kindle {
 		`
 	}
 }
+
+const store = new Store()
 const app = new Kindle(store)

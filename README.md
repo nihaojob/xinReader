@@ -25,3 +25,5 @@
 nihaojob@163.com
 
 https://juejin.cn/user/3843548383549214/posts
+
+<img width="200" src="./doc/img/author.jpeg" />

@@ -77,6 +77,7 @@ class Store {
 
 class Kindle {
 	typeFile = ''
+	itemTip = {}
 	constructor(store){
 		this.store = store
 		this.btnBindListener()
@@ -122,6 +123,7 @@ class Kindle {
 			}
 		})
 		.then(item => {
+			this.itemTip = item
 			this.showTip(item)
 			this.showTotal(item)
 		})
@@ -191,6 +193,48 @@ class Kindle {
 		$('#refreshBtn').click(() => {
 			this.getOne()
 		})
+
+		// 设置flomo按钮
+		$('#setFlomoBtn').click(() => {
+			this.setFlomoUrl()
+		})
+
+		$('#sendFlomoBtn').click(() => {
+			this.store.getBykey('flomoUrl').then((url) => {
+				this.setFlomoTip(url)
+			}).catch(() => alert('还未设置，请设置以后重试'))
+		})
+	}
+
+	setFlomoTip(url){
+		if (window.confirm('确认发送到Flomo？')) {
+			const html = `${this.itemTip.quote}
+
+			书籍：#《${this.itemTip.book}》
+			作者：${this.itemTip.author}
+			时间：${this.itemTip.dateAdded}
+			`
+			$.post(url,{content: html },(result) => {
+				console.log(result)
+				if(result.code === 0){
+					alert('发送成功')
+				}else{
+					alert('失败：' + result.message)
+				}
+			},'json');
+		}
+	}
+
+	setFlomoUrl(){
+		var flomoUrl = prompt('请写入你的专属flomo API');
+		if (flomoUrl.includes('https://flomoapp.com/')){
+			alert(flomoUrl)
+			this.store.setItem('flomoUrl', flomoUrl).then(() => {
+				alert('设置成功')
+			})
+		}else{
+			alert('格式错误')
+		}
 	}
 
 	clearData(){
@@ -222,6 +266,12 @@ class Kindle {
 		`
 	}
 }
+
+
+
+
+
+
 
 const store = new Store()
 const app = new Kindle(store)

@@ -117,7 +117,7 @@ class Kindle {
 			this.showTotal()
 		]).then(([total,index]) => {
 			if(index) {
-				if(index !== total) this.store.setIndex(index + 1)
+				if(Number(index) < Number(total)) this.store.setIndex(Number(index) + 1)
 				$('#backBtn').show()
 				return this.store.getBykey(index)
 			}else{
@@ -207,6 +207,26 @@ class Kindle {
 				this.setFlomoTip(url)
 			}).catch(() => alert('还未设置，请设置以后重试'))
 		})
+
+		// 设置分页按钮
+		$('#setIndexBtn').click(() => {
+			this.setPageIndex()
+		})
+	}
+
+	// 设置分页
+	setPageIndex(){
+		this.store.getTotal().then((total) => {
+			const pageIndex = prompt('您要跳转到第几条笔记');
+			const pageIndexNum = Number(pageIndex)
+			if(pageIndex && Number.isInteger(pageIndexNum) &&  total >= pageIndexNum) {
+				this.store.setIndex(pageIndex).then(() => {
+					this.getOne()
+				})
+			} else{
+				alert('格式错误')
+			}
+		}).catch(() => alert('暂无数据'))
 	}
 
 	setFlomoTip(url){

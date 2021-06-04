@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "昕阅",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "kindle笔记展示工具，展示你想记的内容。",
 	"icons": {
 		"16": "img/icon.png",

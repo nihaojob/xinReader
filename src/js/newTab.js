@@ -111,9 +111,13 @@ class Kindle {
 	}
 
 	getOne(){
-		this.store.getIndex().then(index => {
+		Promise.all([
+			this.store.getTotal(),
+			this.store.getIndex(),
+			this.showTotal()
+		]).then(([total,index]) => {
 			if(index) {
-				this.store.setIndex(index + 1)
+				if(index !== total) this.store.setIndex(index + 1)
 				$('#backBtn').show()
 				return this.store.getBykey(index)
 			}else{
@@ -125,17 +129,16 @@ class Kindle {
 		.then(item => {
 			this.itemTip = item
 			this.showTip(item)
-			this.showTotal(item)
 		})
 	}
 
 	showTotal(){
-		Promise.all([this.store.getIndex(), this.store.getTotal()]).then(([index, total]) => {
-			$('#totalBox').html(`${index-1}/${total} 条`)
+		return Promise.all([this.store.getIndex(), this.store.getTotal()]).then(([index, total]) => {
+			$('#totalBox').html(`${index}/${total} 条`)
 		})
 	}
 
-	showTip(item){
+	showTip(item = {}){
 		const html = this.itemHtml(item)
 		$('#tipText').html(html)
 		$('#tipBox').show()
@@ -215,7 +218,6 @@ class Kindle {
 			时间：${this.itemTip.dateAdded}
 			`
 			$.post(url,{content: html },(result) => {
-				console.log(result)
 				if(result.code === 0){
 					alert('发送成功')
 				}else{
@@ -227,8 +229,7 @@ class Kindle {
 
 	setFlomoUrl(){
 		var flomoUrl = prompt('请写入你的专属flomo API');
-		if (flomoUrl.includes('https://flomoapp.com/')){
-			alert(flomoUrl)
+		if (flomoUrl && flomoUrl.includes('https://flomoapp.com/')){
 			this.store.setItem('flomoUrl', flomoUrl).then(() => {
 				alert('设置成功')
 			})

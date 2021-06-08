@@ -5,8 +5,8 @@
 </p>
 <p align="center">欢迎使用<a target="_blank" href="https://github.com/nihaojob/xinReader/archive/refs/heads/main.zip">下载</a>体验，或在<a target="_blank" href="https://chrome.google.com/webstore/detail/%E6%98%95%E9%98%85/hafbbdlpbhfbbonpnffghcajgkmgmdpi?utm_source=chrome-ntp-icon">chrome商店安装</a>，遇到问题可与我联系哦。</p>
 
-
-<p align="center">与你分享我的<a target="_blank" href="./doc/My Clippings.txt">My Clippings.txt</a>文件<p>
+<p align="center"></p>
+<p>与你分享我的<a target="_blank" href="./doc/My Clippings.txt">My Clippings.txt</a>文件<p>
 
 
 ## Preview

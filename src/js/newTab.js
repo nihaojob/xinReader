@@ -78,12 +78,14 @@ class Store {
 class Kindle {
 	typeFile = ''
 	itemTip = {}
-	constructor(store){
+	$message = null
+	constructor(store, $message){
 		this.store = store
 		this.btnBindListener()
 		this.fileBindListener()
 		this.readFileListener()
 		this.getOne()
+		this.$message = $message
 	}
 	// 绑定文件读取事件
 	readFileListener() {
@@ -104,14 +106,14 @@ class Kindle {
 		})
 		Promise.all(saveArr).then(res => this.store.setTotal(list.length))
 		.then(() => this.store.setIndex(1)).then(() => {
-			alert('保存成功')
+			this.$message.success('保存成功')
 			this.getOne()
 			$('#loadingBox').hide()
 		})
 	}
 
 	getOne(){
-		Promise.all([
+		return Promise.all([
 			this.store.getTotal(),
 			this.store.getIndex(),
 			this.showTotal()
@@ -205,7 +207,7 @@ class Kindle {
 		$('#sendFlomoBtn').click(() => {
 			this.store.getBykey('flomoUrl').then((url) => {
 				this.setFlomoTip(url)
-			}).catch(() => alert('还未设置，请设置以后重试'))
+			}).catch(() => this.$message.warning('还未设置，请设置以后重试'))
 		})
 
 		// 设置分页按钮
@@ -216,52 +218,62 @@ class Kindle {
 
 	// 设置分页
 	setPageIndex(){
-		this.store.getTotal().then((total) => {
-			const pageIndex = prompt('您要跳转到第几条笔记');
+		Promise.all([this.store.getIndex(), this.store.getTotal()])
+		.then(([index, total]) => {
+			const pageIndex = prompt('您要跳转到第几条笔记', index);
 			const pageIndexNum = Number(pageIndex)
+			if(pageIndex === null) return
 			if(pageIndex && Number.isInteger(pageIndexNum) &&  total >= pageIndexNum) {
 				this.store.setIndex(pageIndex).then(() => {
-					this.getOne()
+					this.getOne().then(() => this.$message.success(`成功跳转至第${pageIndexNum}条`))
 				})
 			} else{
-				alert('格式错误')
+				this.$message.error('格式错误')
 			}
-		}).catch(() => alert('暂无数据'))
+
+		}).catch(() => this.$message.warning('暂无数据'))
 	}
 
 	setFlomoTip(url){
-		if (window.confirm('确认发送到Flomo？')) {
-			const html = `${this.itemTip.quote}
 
-			书籍：#《${this.itemTip.book}》
-			作者：${this.itemTip.author}
-			时间：${this.itemTip.dateAdded}
-			`
-			$.post(url,{content: html },(result) => {
-				if(result.code === 0){
-					alert('发送成功')
-				}else{
-					alert('失败：' + result.message)
-				}
-			},'json');
-		}
+		this.store.getBykey('flomoUrl').then(nowUrl => {
+			console.log(nowUrl)
+			if(!nowUrl) return this.$message.warning('暂未设置API链接')
+			if (window.confirm('确认发送到Flomo？')) {
+				const html = `${this.itemTip.quote}
+				书籍：#《${this.itemTip.book}》
+				作者：${this.itemTip.author}
+				时间：${this.itemTip.dateAdded}
+				`
+				$.post(url,{content: html },(result) => {
+					if(result.code === 0){
+						this.$message.success('发送成功')
+					}else{
+						this.$message.error('失败：' + result.message)
+					}
+				},'json');
+			}
+		})
 	}
 
-	setFlomoUrl(){
-		var flomoUrl = prompt('请写入你的专属flomo API');
-		if (flomoUrl && flomoUrl.includes('https://flomoapp.com/')){
-			this.store.setItem('flomoUrl', flomoUrl).then(() => {
-				alert('设置成功')
-			})
-		}else{
-			alert('格式错误')
-		}
+	setFlomoUrl() {
+		this.store.getBykey('flomoUrl').then(nowUrl => {
+			var flomoUrl = prompt('请写入你的专属flomo API', nowUrl);
+			if (flomoUrl === null) return
+			if (flomoUrl && flomoUrl.includes('https://flomoapp.com/')) {
+				this.store.setItem('flomoUrl', flomoUrl).then(() => {
+					this.$message.success('设置成功')
+				})
+			} else {
+				this.$message.error('格式错误')
+			}
+		})
 	}
 
 	clearData(){
 		this.store.clear().then(() =>{
 			$('#backBtn').hide()
-			 alert('数据已清空')
+			 this.$message.success('数据已清空')
 		})
 	}
 	// 文件类型判断
@@ -295,4 +307,4 @@ class Kindle {
 
 
 const store = new Store()
-const app = new Kindle(store)
+const app = new Kindle(store, window.$message)

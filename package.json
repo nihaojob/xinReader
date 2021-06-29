@@ -1,0 +1,39 @@
+{
+  "name": "xin-reader",
+  "version": "1.0.0",
+  "description": "<p align=\"center\"><img width=\"15%\" src=\"./src/img/icon.png\" /></p> <h1 align=\"center\">昕阅<sup>1.0</sup> - xinReader</h1> <p align=\"center\">Kindle笔记展示工具，让你过去记录的内容不被遗忘</p> <p align=\"center\">将Kindel的My Clippings.txt笔记展示在浏览器中，还可推送至flomo。 </p> <p align=\"center\">欢迎使用<a target=\"_blank\" href=\"https://github.com/nihaojob/xinReader/archive/refs/heads/main.zip\">下载</a>体验，或在<a target=\"_blank\" href=\"https://chrome.google.com/webstore/detail/%E6%98%95%E9%98%85/hafbbdlpbhfbbonpnffghcajgkmgmdpi?utm_source=chrome-ntp-icon\">chrome商店安装</a>，遇到问题可与我联系哦。</p>",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nihaojob/xinReader.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nihaojob/xinReader/issues"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{css,less}": [
+      "stylelint --fix"
+    ]
+  },
+  "homepage": "https://github.com/nihaojob/xinReader#readme",
+  "devDependencies": {
+    "husky": "4.3.6",
+    "lint-staged": "10.5.4",
+    "stylelint": "^13.13.1",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^22.0.0"
+  }
+}

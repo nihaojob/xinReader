@@ -5,23 +5,25 @@
 
 class Store {
 
-	prefix = 'tip-'
+	constructor(){
+		this.prefix = 'tip-'
+	}
 
 	// 设置总数
-	setTotal(total){
+	setTotal(total) {
 		return this.setItem('total', total)
 	}
 
 	// 设置总数
-	getTotal(){
+	getTotal() {
 		return this.getBykey('total')
 	}
 
-	getIndex(){
+	getIndex() {
 		return this.getBykey('index')
 	}
 
-	setIndex(index){
+	setIndex(index) {
 		return this.setItem('index', index)
 	}
 
@@ -33,7 +35,7 @@ class Store {
 		})
 	}
 
-	clear(){
+	clear() {
 		return new Promise((resolve, reject) => {
 			chrome.storage.local.clear(() => {
 				let err = chrome.runtime.lastError;
@@ -46,10 +48,10 @@ class Store {
 		});
 	}
 
-	getBykey(strKey){
+	getBykey(strKey) {
 		const key = this.prefix + strKey
-		return new Promise(function(resolve, reject) {
-			chrome.storage.local.get([key], function(items) {
+		return new Promise(function (resolve, reject) {
+			chrome.storage.local.get([key], function (items) {
 				let err = chrome.runtime.lastError;
 				if (err) {
 					reject(err);
@@ -62,8 +64,8 @@ class Store {
 
 	setItem(strKey, item) {
 		const key = this.prefix + strKey
-		return new Promise(function(resolve, reject) {
-			chrome.storage.local.set({ [key]: item }, function() {
+		return new Promise(function (resolve, reject) {
+			chrome.storage.local.set({ [key]: item }, function () {
 				let err = chrome.runtime.lastError;
 				if (err) {
 					reject(err);
@@ -79,7 +81,7 @@ class Kindle {
 	typeFile = ''
 	itemTip = {}
 	$message = null
-	constructor(store, $message){
+	constructor(store, $message) {
 		this.store = store
 		this.btnBindListener()
 		this.fileBindListener()
@@ -90,7 +92,7 @@ class Kindle {
 	// 绑定文件读取事件
 	readFileListener() {
 		this.reader = new FileReader();
-		this.reader.onload =  (event) => {
+		this.reader.onload = (event) => {
 			const list = kindleParser(event.target.result)
 			if (window.confirm(`共检测到${list.length}条笔记，是否导入？`)) {
 				this.saveAll(list)
@@ -98,64 +100,64 @@ class Kindle {
 		};
 	}
 
-	saveAll(list){
+	saveAll(list) {
 		this.loadingShow()
 		const saveArr = []
 		list.forEach((item, i) => {
 			saveArr.push(this.store.setItem(String(i + 1), item))
 		})
 		Promise.all(saveArr).then(res => this.store.setTotal(list.length))
-		.then(() => this.store.setIndex(1)).then(() => {
-			this.$message.success('保存成功')
-			this.getOne()
-			$('#loadingBox').hide()
-		})
+			.then(() => this.store.setIndex(1)).then(() => {
+				this.$message.success('保存成功')
+				this.getOne()
+				$('#loadingBox').hide()
+			})
 	}
 
-	getOne(){
+	getOne() {
 		return Promise.all([
 			this.store.getTotal(),
 			this.store.getIndex(),
 			this.showTotal()
-		]).then(([total,index]) => {
-			if(index) {
-				if(Number(index) < Number(total)) this.store.setIndex(Number(index) + 1)
+		]).then(([total, index]) => {
+			if (index) {
+				if (Number(index) < Number(total)) this.store.setIndex(Number(index) + 1)
 				$('#backBtn').show()
 				return this.store.getBykey(index)
-			}else{
+			} else {
 				$('#setBox').show()
 				$('#backBtn').hide()
 				return Promise.reject()
 			}
 		})
-		.then(item => {
-			this.itemTip = item
-			this.showTip(item)
-		})
+			.then(item => {
+				this.itemTip = item
+				this.showTip(item)
+			})
 	}
 
-	showTotal(){
+	showTotal() {
 		return Promise.all([this.store.getIndex(), this.store.getTotal()]).then(([index, total]) => {
 			$('#totalBox').html(`${index}/${total} 条`)
 		})
 	}
 
-	showTip(item = {}){
+	showTip(item = {}) {
 		const html = this.itemHtml(item)
 		$('#tipText').html(html)
 		$('#tipBox').show()
 	}
 
-	loadingShow(){
+	loadingShow() {
 		$('#tipBox').hide()
 		$('#setBox').hide()
 		$('#loadingBox').show()
 	}
 
 	// 文件监听
-	fileBindListener(){
+	fileBindListener() {
 		var eleFile = document.getElementById('upfile');
-		eleFile.onchange =  (event) =>  {
+		eleFile.onchange = (event) => {
 			var file = event.target.files[0];
 			if (this.isTextFile(file)) {
 				this.typeFile = 'text'
@@ -168,12 +170,12 @@ class Kindle {
 	btnBindListener() {
 		$('#selectFileBtn').click(() => {
 			this.store.getIndex().then(index => {
-				if(index) {
-					if(window.confirm('选择新文件后将清除原有数据，确认操作？')) {
+				if (index) {
+					if (window.confirm('选择新文件后将清除原有数据，确认操作？')) {
 						this.clearData()
 						$('#upfile').click()
 					}
-				} else{
+				} else {
 					$('#upfile').click()
 				}
 			})
@@ -185,7 +187,7 @@ class Kindle {
 		})
 
 		$('#clearBtn').click(() => {
-			if(window.confirm('确认清空所有数据？')){
+			if (window.confirm('确认清空所有数据？')) {
 				this.clearData()
 			}
 		})
@@ -217,41 +219,41 @@ class Kindle {
 	}
 
 	// 设置分页
-	setPageIndex(){
+	setPageIndex() {
 		Promise.all([this.store.getIndex(), this.store.getTotal()])
-		.then(([index, total]) => {
-			const pageIndex = prompt('您要跳转到第几条笔记', index);
-			const pageIndexNum = Number(pageIndex)
-			if(pageIndex === null) return
-			if(pageIndex && Number.isInteger(pageIndexNum) &&  total >= pageIndexNum) {
-				this.store.setIndex(pageIndex).then(() => {
-					this.getOne().then(() => this.$message.success(`成功跳转至第${pageIndexNum}条`))
-				})
-			} else{
-				this.$message.error('格式错误')
-			}
+			.then(([index, total]) => {
+				const pageIndex = prompt('您要跳转到第几条笔记', index);
+				const pageIndexNum = Number(pageIndex)
+				if (pageIndex === null) return
+				if (pageIndex && Number.isInteger(pageIndexNum) && total >= pageIndexNum) {
+					this.store.setIndex(pageIndex).then(() => {
+						this.getOne().then(() => this.$message.success(`成功跳转至第${pageIndexNum}条`))
+					})
+				} else {
+					this.$message.error('格式错误')
+				}
 
-		}).catch(() => this.$message.warning('暂无数据'))
+			}).catch(() => this.$message.warning('暂无数据'))
 	}
 
-	setFlomoTip(url){
+	setFlomoTip(url) {
 
 		this.store.getBykey('flomoUrl').then(nowUrl => {
 			console.log(nowUrl)
-			if(!nowUrl) return this.$message.warning('暂未设置API链接')
+			if (!nowUrl) return this.$message.warning('暂未设置API链接')
 			if (window.confirm('确认发送到Flomo？')) {
 				const html = `${this.itemTip.quote}
 				书籍：#《${this.itemTip.book}》
 				作者：${this.itemTip.author}
 				时间：${this.itemTip.dateAdded}
 				`
-				$.post(url,{content: html },(result) => {
-					if(result.code === 0){
+				$.post(url, { content: html }, (result) => {
+					if (result.code === 0) {
 						this.$message.success('发送成功')
-					}else{
+					} else {
 						this.$message.error('失败：' + result.message)
 					}
-				},'json');
+				}, 'json');
 			}
 		})
 	}
@@ -270,19 +272,19 @@ class Kindle {
 		})
 	}
 
-	clearData(){
-		this.store.clear().then(() =>{
+	clearData() {
+		this.store.clear().then(() => {
 			$('#backBtn').hide()
-			 this.$message.success('数据已清空')
+			this.$message.success('数据已清空')
 		})
 	}
 	// 文件类型判断
-	isTextFile(file){
+	isTextFile(file) {
 		return file.type === 'text/plain'
 	}
 
 	// 拼接HTML模板
-	itemHtml(item){
+	itemHtml(item) {
 		return `
 		<p class="text-xl text-black font-semibold leading-10 mb-5">
 		${item.quote}
@@ -299,12 +301,6 @@ class Kindle {
 		`
 	}
 }
-
-
-
-
-
-
 
 const store = new Store()
 const app = new Kindle(store, window.$message)

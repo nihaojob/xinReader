@@ -1,168 +1,167 @@
 #messageBox {
-    font-size: 14px;
-    position: fixed;
-    z-index: 1010;
-    width: 100%;
-    left: 0;
-    color: #515a6e;
-    pointer-events: none;
-    -webkit-font-smoothing: antialiased;
+  position: fixed;
+  left: 0;
+  z-index: 1010;
+  width: 100%;
+  color: #515a6e;
+  font-size: 14px;
+  pointer-events: none;
+  -webkit-font-smoothing: antialiased;
 }
 
 .i-message-box {
-    padding: 7px;
-    overflow: hidden;
-    box-sizing: content-box;
-    text-align: center;
-    transition: height .3s ease-in-out, padding .3s ease-in-out;
+  box-sizing: content-box;
+  padding: 7px;
+  overflow: hidden;
+  text-align: center;
+  transition: height 0.3s ease-in-out, padding 0.3s ease-in-out;
 }
 
 .i-message-message {
-    display: inline-block;
-    pointer-events: all;
-    padding: 8px 16px;
-    border-radius: 4px;
-    box-shadow: 0 1px 6px rgb(0 0 0 / 20%);
-    background: #fff;
-    position: relative;
+  position: relative;
+  display: inline-block;
+  padding: 8px 16px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 6px rgb(0 0 0 / 20%);
+  pointer-events: all;
 }
 
 .i-message-message .i-message-content-text,
 svg {
-    display: inline-block;
-    font-style: normal;
-    font-weight: 400;
-    font-variant: normal;
-    text-transform: none;
-    text-rendering: optimizeLegibility;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
+  display: inline-block;
+  font-weight: 400;
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-align: center;
+  text-transform: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .i-message-message svg {
-    width: 16px;
-    height: 16px;
-    margin-right: 4px;
-    vertical-align: middle;
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  vertical-align: middle;
 }
 
-.i-message-message svg.i-message-btn{
-    cursor: pointer;
-    color: #999;
-    width: 14px;
-    height: 14px;
-    margin: 0;
-    margin-left: 10px;
+.i-message-message svg.i-message-btn {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  margin-left: 10px;
+  color: #999;
+  cursor: pointer;
 }
 
-.i-message-message svg.i-message-btn:hover{
-    color: #444;
+.i-message-message svg.i-message-btn:hover {
+  color: #444;
 }
 
 svg.loading {
-    animation: loading 1.8s linear infinite;
+  animation: loading 1.8s linear infinite;
 }
 
 @-webkit-keyframes loading {
-    0% {
-        -webkit-transform: rotate(0deg);
-    }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
 
-    50% {
-        -webkit-transform: rotate(180deg);
-    }
+  50% {
+    -webkit-transform: rotate(180deg);
+  }
 
-    100% {
-        -webkit-transform: rotate(360deg);
-    }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes loading {
-    0% {
-        -webkit-transform: rotate(0deg);
-    }
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
 
-    50% {
-        -webkit-transform: rotate(180deg);
-    }
+  50% {
+    -webkit-transform: rotate(180deg);
+  }
 
-    100% {
-        -webkit-transform: rotate(360deg);
-    }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 .animate__animated {
-    --animate-duration: 0.4s;
-}
-.animate__animated {
-    -webkit-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-duration: var(--animate-duration);
-    animation-duration: var(--animate-duration);
-    -webkit-animation-fill-mode: both;
-    animation-fill-mode: both;
+  --animate-duration: 0.4s;
+
+  -webkit-animation-duration: 1s;
+  -webkit-animation-duration: var(--animate-duration);
+  animation-duration: 1s;
+  animation-duration: var(--animate-duration);
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
 }
 
 .animate__fadeOutUp {
-    -webkit-animation-name: fadeOutUp;
-    animation-name: fadeOutUp;
+  -webkit-animation-name: fadeoutup;
+  animation-name: fadeOutUp;
 }
 
 @-webkit-keyframes fadeOutUp {
-    0% {
-        opacity: 1;
-    }
+  0% {
+    opacity: 1;
+  }
 
-    to {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -100%, 0);
-        transform: translate3d(0, -100%, 0);
-    }
+  to {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+    opacity: 0;
+  }
 }
 
 @keyframes fadeOutUp {
-    0% {
-        opacity: 1;
-    }
+  0% {
+    opacity: 1;
+  }
 
-    to {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -100%, 0);
-        transform: translate3d(0, -100%, 0);
-    }
+  to {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+    opacity: 0;
+  }
 }
 
 .animate__fadeInDown {
-    -webkit-animation-name: fadeInDown;
-    animation-name: fadeInDown;
+  -webkit-animation-name: fadeindown;
+  animation-name: fadeInDown;
 }
 
 @-webkit-keyframes fadeInDown {
-    0% {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -100%, 0);
-        transform: translate3d(0, -100%, 0);
-    }
+  0% {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+    opacity: 0;
+  }
 
-    to {
-        opacity: 1;
-        -webkit-transform: translateZ(0);
-        transform: translateZ(0);
-    }
+  to {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    opacity: 1;
+  }
 }
 
 @keyframes fadeInDown {
-    0% {
-        opacity: 0;
-        -webkit-transform: translate3d(0, -100%, 0);
-        transform: translate3d(0, -100%, 0);
-    }
+  0% {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+    opacity: 0;
+  }
 
-    to {
-        opacity: 1;
-        -webkit-transform: translateZ(0);
-        transform: translateZ(0);
-    }
+  to {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    opacity: 1;
+  }
 }

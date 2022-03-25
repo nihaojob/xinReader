@@ -77,6 +77,50 @@
       width: 50%;
       transform: translate(-50%, -50%);
     }
+
+    /* 分享 */
+    #shareBox{
+      display: none;
+      position: relative;
+      /* 1080 * 1439 */
+
+      width: 540px;
+      height: 719.5px;
+      background: #fff;
+      box-sizing: border-box;
+      padding: 50px;
+      /* border: 8px solid #94c4fd2e; */
+    }
+
+    #shareBox h2{
+      font-size: 30px;
+      margin-top: 40px;
+      display: inline-block;
+      background: #F0F6FE;
+    }
+
+    #shareBox svg{
+      display: block;
+    }
+    #shareBox p{
+      padding-top: 38px;
+      font-size: 38px;
+    }
+
+    #shareBox span{
+      display: block;
+      text-align: right;
+      position: absolute;
+      font-size: 16px;
+      bottom: 50px;
+      opacity: 0.3;
+    }
+
+    #downImg{
+      position: absolute; top: 0;
+      right: 0px;
+    }
+
   </style>
 </head>
 
@@ -109,7 +153,7 @@
 
   <!-- 笔记 -->
   <div id="tipBox" class="select-file-box max-w-full bg-white rounded-xl shadow-xl space-y-2 sm:pt-6 ">
-    <div class="text-center space-y-2 sm:text-left sm:px-8 ">
+    <div contenteditable class="text-center space-y-2 sm:text-left sm:px-8 ">
       <div class="space-y-0.5  mb-5" id="tipText">
         <p class="text-xl text-black font-semibold leading-10 mb-5">
           避免争 吵当然是好的，但不是以压抑感情为代价。 而且压是压不住的，最终她还会落入谷底， 并也许会一发不可收拾。
@@ -154,6 +198,10 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
         </svg>
+        <svg id="shareBtn" xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-6 px-1 sm:flex-1 cursor-pointer hover:text-blue-700	" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+        </svg>
       </span>
     </p>
   </div>
@@ -170,10 +218,17 @@
     </svg>
   </div>
 
+  <!-- 分享图片 -->
+  <!-- class="select-file-box max-w-full bg-white rounded-xl shadow-xl space-y-2 sm:pt-6 " -->
+  <div id="shareBox" contenteditable >
+    <div class="templ"></div>
+    <!-- <div id="shareBoxClose">close</div> -->
+  </div>
 
-
+  <div id="downImg">down</div>
 </body>
 <script src="js/jquery-1.8.3.js"></script>
+<script src="js/dom-to-image.min.js"></script>
 <script src="js/kindle.js"></script>
 <script src="js/mesage.js"></script>
 <script src="js/newTab.js"></script>

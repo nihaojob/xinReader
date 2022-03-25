@@ -216,6 +216,7 @@ class Kindle {
 		$('#setIndexBtn').click(() => {
 			this.setPageIndex()
 		})
+
 	}
 
 	// 设置分页
@@ -239,7 +240,6 @@ class Kindle {
 	setFlomoTip(url) {
 
 		this.store.getBykey('flomoUrl').then(nowUrl => {
-			console.log(nowUrl)
 			if (!nowUrl) return this.$message.warning('暂未设置API链接')
 			if (window.confirm('确认发送到Flomo？')) {
 				const html = `${this.itemTip.quote}
@@ -304,3 +304,54 @@ class Kindle {
 
 const store = new Store()
 const app = new Kindle(store, window.$message)
+
+// 分享功能相关
+class Share {
+	constructor(app, store, $message) {
+		this.app = app
+		this.store = store
+		this.$message = $message
+		this.btnBindListener()
+	}
+
+
+	btnBindListener(){
+		// 分享按钮
+		$('#shareBtn').click(() => {
+			this.showShare()
+		})
+
+		$('#shareBoxClose').click(() => {
+			$('#shareBox').hide()
+		})
+
+		$('#downImg').click(() => {
+			this.downImg()
+		})
+	}
+
+	// 显示分享弹框
+	showShare(){
+		const html = this._template(this.app.itemTip)
+		$('#shareBox .templ').html(html)
+		$('#shareBox').show()
+	}
+
+	downImg(){
+		domtoimage.toPng(document.getElementById('shareBox'))
+		.then(function (dataUrl) {
+			var link = document.createElement('a');
+			link.download = 'xinReader.png';
+			link.href = dataUrl;
+			link.click();
+		});
+	}
+
+	_template(data){
+		console.log(data)
+		const signature = '@秦少卫的书摘'
+		return `<svg width="45" height="36" class="mb-5 fill-current text-orange-100"><path d="M13.415.001C6.07 5.185.887 13.681.887 23.041c0 7.632 4.608 12.096 9.936 12.096 5.04 0 8.784-4.032 8.784-8.784 0-4.752-3.312-8.208-7.632-8.208-.864 0-2.016.144-2.304.288.72-4.896 5.328-10.656 9.936-13.536L13.415.001zm24.768 0c-7.2 5.184-12.384 13.68-12.384 23.04 0 7.632 4.608 12.096 9.936 12.096 4.896 0 8.784-4.032 8.784-8.784 0-4.752-3.456-8.208-7.776-8.208-.864 0-1.872.144-2.16.288.72-4.896 5.184-10.656 9.792-13.536L38.183.001z"></path></svg><h2>《${data.book}》</h2><p>${data.quote}</p><span>${signature}</span></p>`
+	}
+}
+
+const share = new Share(app, store, window.$message)
